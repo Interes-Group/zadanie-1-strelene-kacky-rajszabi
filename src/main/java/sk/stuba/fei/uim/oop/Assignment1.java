@@ -1,8 +1,9 @@
 package sk.stuba.fei.uim.oop;
 
+import sk.stuba.fei.uim.oop.sittingduck.SittingDuck;
+
 public class Assignment1 {
     public static void main(String[] args) {
-        System.out.println("Test")
-        ;
+        SittingDuck sittingDuck = new SittingDuck();
     }
 }
