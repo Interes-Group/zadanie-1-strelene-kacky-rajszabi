@@ -13,7 +13,6 @@ public abstract class ActionCard {
         this.name = name;
     }
 
-//    public abstract void activate(List<AimedAtCard> crossHairs, List<Card> pond, List<Card> deckOfDucks);
 public abstract void activate(CrossHairs crossHairs, List<Card> pond, List<Card> deckOfDucks);
     public abstract String getName();
 }

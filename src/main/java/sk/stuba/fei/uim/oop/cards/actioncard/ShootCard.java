@@ -15,7 +15,6 @@ public class ShootCard extends ActionCard{
 
     @Override
     public void activate(CrossHairs crossHairs, List<Card> pond, List<Card> deckOfDucks) {
-        // TODO: 24. 3. 2022 Implement: cant activate ShootCard if there are not crosshairs.
         while (true) {
             int tile = ZKlavesnice.readInt("Select the pond you want to shoot at [1-6]..");
             if (1 <= tile && tile <= 6) {

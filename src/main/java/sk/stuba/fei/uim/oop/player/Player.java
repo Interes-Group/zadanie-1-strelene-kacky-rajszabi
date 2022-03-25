@@ -50,7 +50,6 @@ public class Player {
                 System.out.println("Wrong input number...");
             }
         }
-
         if (duckCards.size() == 0) {
             setActive(false);
             actionCards.addAll(this.actionCards);
@@ -58,34 +57,42 @@ public class Player {
         else {
             this.actionCards.add(actionCards.remove(0));
         }
-
     }
 
-    // TODO: 25. 3. 2022 Run multiple times if neccesery.
     public void checkActionCardsPlayability(CrossHairs crossHairs, List<ActionCard> actionCards) {
         int counter;
-        if (crossHairs.getSize() == 6) {
-            counter = 0;
-            for (ActionCard actionCard : actionCards) {
-                if (actionCard instanceof AimCard) {
-                    counter++;
+        boolean playable = true;
+        while (playable) {
+            playable = false;
+            if (crossHairs.getSize() == 6) {
+                counter = 0;
+                for (ActionCard actionCard : actionCards) {
+                    if (actionCard instanceof AimCard) {
+                        counter++;
+                    }
+                }
+                if (counter == 3) {
+                    actionCards.add(this.actionCards.remove(0));
+                    this.actionCards.add(actionCards.remove(0));
+                    for (ActionCard actionCard : actionCards)
+                        System.out.println(actionCard.getName() + "\n");
+                    playable = true;
                 }
             }
-            if (counter == 3) {
-                actionCards.add(this.actionCards.remove(0));
-                this.actionCards.add(actionCards.remove(0));
-            }
-        }
-        if (crossHairs.getSize() == 0) {
-            counter = 0;
-            for (ActionCard actionCard : actionCards) {
-                if (actionCard instanceof ShootCard) {
-                    counter++;
+            if (crossHairs.getSize() == 0) {
+                counter = 0;
+                for (ActionCard actionCard : actionCards) {
+                    if (actionCard instanceof ShootCard) {
+                        counter++;
+                    }
                 }
-            }
-            if (counter == 3) {
-                actionCards.add(this.actionCards.remove(0));
-                this.actionCards.add(actionCards.remove(0));
+                if (counter == 3) {
+                    actionCards.add(this.actionCards.remove(0));
+                    this.actionCards.add(actionCards.remove(0));
+                    for (ActionCard actionCard : actionCards)
+                        System.out.println(actionCard.getName() + "\n");
+                    playable = true;
+                }
             }
         }
     }

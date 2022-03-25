@@ -18,10 +18,8 @@ public class AimCard extends ActionCard {
         while (true) {
             int tile = ZKlavesnice.readInt("Select the tile by its number you want to place your crosshair [1-6]..");
             if (1 <= tile && tile <= 6) {
-//                AimedAtCard aimedAtCard = crosshairs.get(tile - 1);
                 AimedAtCard aimedAtCard = crosshairs.getCrossHairByIndex(tile - 1);
                 if (!aimedAtCard.getStatus()) {
-//                    aimedAtCard.changeValues("Aimed at", true);
                     crosshairs.updateCrossHair(tile-1, "Aimed at", true);
                     break;
                 } else {
