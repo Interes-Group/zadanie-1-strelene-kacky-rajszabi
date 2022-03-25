@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.player;
 
-import sk.stuba.fei.uim.oop.cards.AimedAtCard;
 import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.cards.DuckCard;
 import sk.stuba.fei.uim.oop.cards.actioncard.ActionCard;
@@ -9,7 +8,6 @@ import sk.stuba.fei.uim.oop.cards.actioncard.ShootCard;
 import sk.stuba.fei.uim.oop.crosshairs.CrossHairs;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +62,7 @@ public class Player {
         boolean playable = true;
         while (playable) {
             playable = false;
+            System.out.println("Crosshairs size: " + crossHairs.getSize());
             if (crossHairs.getSize() == 6) {
                 counter = 0;
                 for (ActionCard actionCard : actionCards) {
@@ -74,8 +73,6 @@ public class Player {
                 if (counter == 3) {
                     actionCards.add(this.actionCards.remove(0));
                     this.actionCards.add(actionCards.remove(0));
-                    for (ActionCard actionCard : actionCards)
-                        System.out.println(actionCard.getName() + "\n");
                     playable = true;
                 }
             }
@@ -89,8 +86,6 @@ public class Player {
                 if (counter == 3) {
                     actionCards.add(this.actionCards.remove(0));
                     this.actionCards.add(actionCards.remove(0));
-                    for (ActionCard actionCard : actionCards)
-                        System.out.println(actionCard.getName() + "\n");
                     playable = true;
                 }
             }

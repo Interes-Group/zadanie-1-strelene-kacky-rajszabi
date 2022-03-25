@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.actioncard;
 
-import sk.stuba.fei.uim.oop.cards.AimedAtCard;
 import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.crosshairs.CrossHairs;
 

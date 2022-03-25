@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.actioncard;
 
-import sk.stuba.fei.uim.oop.cards.AimedAtCard;
 import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.cards.DuckCard;
 import sk.stuba.fei.uim.oop.crosshairs.CrossHairs;
@@ -25,7 +24,7 @@ public class TurboduckCard extends ActionCard {
                     pond.add(0, pond.remove(duck - 1));
                     break;
                 } else {
-                    System.out.println("You cannot choose water...");
+                    System.out.println("You cannot pick water...");
                 }
             } else {
                 System.out.println("Wrong input number...");
