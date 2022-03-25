@@ -5,6 +5,7 @@ import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.cards.DuckCard;
 import sk.stuba.fei.uim.oop.cards.WaterCard;
 import sk.stuba.fei.uim.oop.cards.actioncard.*;
+import sk.stuba.fei.uim.oop.crosshairs.CrossHairs;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
@@ -17,17 +18,24 @@ public class SittingDuck {
     private List<Card> pond;
     private List<Card> deckOfDucks;
     private List<ActionCard> actionCards;
-    private List<AimedAtCard> crossHairs;
+    private CrossHairs crossHairs;
     private final Player[] players;
     private int currentPlayer;
     private int roundCounter;
 
     public SittingDuck() {
         System.out.println("Welcome to FEI SITTING DUCK");
-        int numberPlayers = ZKlavesnice.readInt("Enter number of players: ");
-        this.players = new Player[numberPlayers];
-        for (int i=0; i<numberPlayers; i++) {
-            this.players[i] = new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + "name: "));
+        while (true) {
+            int numberPlayers = ZKlavesnice.readInt("Enter number of players [2-6]: ");
+            if (2 <= numberPlayers && numberPlayers <= 6) {
+                this.players = new Player[numberPlayers];
+                break;
+            } else {
+                System.out.println("Wrong input. Try again...");
+            }
+        }
+        for (int i=0; i<players.length; i++) {
+            this.players[i] = new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + " name: "));
         }
         initializeBoard();
         startGame();
@@ -43,10 +51,11 @@ public class SittingDuck {
             if (!activePlayer.isActive()) {
                 continue;
             }
-            System.out.println("--- PLAYER " + activePlayer.getName() + " STARTS TURN ---");
-            System.out.println("Player 1 Ducks left: " + players[0].getAllDuckCard().size());
+            System.out.println("--- PLAYER " + (this.currentPlayer+1) + " STARTS TURN ---");
+            System.out.println("Player " + activePlayer.getName() + "'s Ducks left: " + activePlayer.getAllDuckCard().size());
             showBoard();
             System.out.println("Your cards: ");
+            activePlayer.checkActionCardsPlayability(crossHairs, actionCards);
             activePlayer.chooseActionCard(crossHairs, pond, deckOfDucks, actionCards);
         }
         System.out.println("--- GAME FINISHED ---");
@@ -57,7 +66,7 @@ public class SittingDuck {
     private void showBoard() {
         System.out.println("------------------------------------");
         for (int i=0; i<6; i++) {
-            System.out.println((i+1) + ". " + crossHairs.get(i).getStatus() + " -  " + pond.get(i).getName());
+            System.out.println((i+1) + ". " + crossHairs.getCrossHairByIndex(i).getName() + " -  " + pond.get(i).getName());
         }
         System.out.println("------------------------------------\n");
     }
@@ -72,9 +81,9 @@ public class SittingDuck {
     }
 
     private void initializeCrossHairs() {
-        crossHairs = new ArrayList<>();
+        crossHairs = new CrossHairs();
         for (int i=0; i<6; i++) {
-            crossHairs.add(new AimedAtCard("Not aimed at"));
+            crossHairs.addCrossHair(new AimedAtCard("Not aimed at", false));
         }
     }
 
@@ -101,7 +110,9 @@ public class SittingDuck {
         for (int i=0; i<6; i++) {
             deckOfDucks.add(new WaterCard("Water"));
         }
-        Collections.shuffle(deckOfDucks);
+        for (int i=0; i<5; i++) {
+            Collections.shuffle(deckOfDucks);
+        }
     }
 
     private void initializePlayerCards() {
@@ -115,23 +126,25 @@ public class SittingDuck {
     private void initializeActionCards() {
         this.actionCards = new ArrayList<>();
         for (int i=0; i<10; i++) {
-            actionCards.add(new AimCard("Aim"));
+            this.actionCards.add(new AimCard("Aim"));
         }
         for (int i=0; i<12; i++) {
-            actionCards.add(new ShootCard("Shoot"));
+            this.actionCards.add(new ShootCard("Shoot"));
         }
         for (int i=0; i<2; i++) {
-            actionCards.add(new WildBillCard("Wild Bill"));
+            this.actionCards.add(new WildBillCard("Wild Bill"));
         }
         for (int i=0; i<6; i++) {
-            actionCards.add(new DuckMarchCard("Duck march"));
+            this.actionCards.add(new DuckMarchCard("Duck march"));
         }
         for (int i=0; i<2; i++) {
-            actionCards.add(new ScatterCard("Scatter"));
+            this.actionCards.add(new ScatterCard("Scatter"));
         }
-        actionCards.add(new TurboduckCard("Turboduck"));
-        actionCards.add(new DuckDanceCard("Duck dance"));
-        Collections.shuffle(actionCards);
+        this.actionCards.add(new TurboduckCard("Turboduck"));
+        this.actionCards.add(new DuckDanceCard("Duck dance"));
+        for (int i=0; i<5; i++) {
+            Collections.shuffle(this.actionCards);
+        }
     }
 
     private void incrementCounter() {
